@@ -1,3 +1,5 @@
+import calculateNewPosition from '../utils/calculateNewPosition'
+
 interface InitialPosition {
    x: number,
    y: number
@@ -37,48 +39,62 @@ export default class Snake {
 
    moveRight() {
       const { x } = this.$HTMLElement.getBoundingClientRect()
-      const newPositionX = x + this.movementPixels
 
-      const isOverflowingScreen = (x > this.$screen.clientWidth)
+      const newPosition = calculateNewPosition({
+         pixelsToMove: this.movementPixels,
+         right: {
+            screenWidth: this.$screen.clientWidth,
+            positionX: x
+         }
+      })
 
-      if (isOverflowingScreen) this.positionX = 0
-      if (!isOverflowingScreen) this.positionX = newPositionX
+      this.positionX = newPosition
 
       return this.renderMovement()
    }
 
    moveLeft() {
       const { x } = this.$HTMLElement.getBoundingClientRect()
-      const newPositionX = (x - this.movementPixels)
 
-      const isOverflowingScreen = (x < 0)
+      const newPosition = calculateNewPosition({
+         pixelsToMove: this.movementPixels,
+         left: {
+            screenWidth: this.$screen.clientWidth,
+            positionX: x
+         }
+      })
 
-      if (isOverflowingScreen) this.positionX = this.$screen.clientWidth
-      if (!isOverflowingScreen) this.positionX = newPositionX
+      this.positionX = newPosition
 
       return this.renderMovement()
    }
 
    moveUp() {
       const { y } = this.$HTMLElement.getBoundingClientRect()
-      const newPositionY = y - this.movementPixels
+      const newPositionY = calculateNewPosition({
+         pixelsToMove: this.movementPixels,
+         up: {
+            positionY: y,
+            screenHeight: this.$screen.clientHeight
+         }
+      })
 
-      const isOverflowingScreen = (y < 0)
-
-      if (isOverflowingScreen) this.positionY = this.$screen.clientHeight
-      if (!isOverflowingScreen) this.positionY = newPositionY
+      this.positionY = newPositionY
 
       return this.renderMovement()
    }
 
    moveBottom() {
       const { y } = this.$HTMLElement.getBoundingClientRect()
-      const newPositionY = y + this.movementPixels
+      const newPositionY = calculateNewPosition({
+         pixelsToMove: this.movementPixels,
+         down: {
+            positionY: y,
+            screenHeight: this.$screen.clientHeight
+         }
+      })
 
-      const isOverflowingScreen = (y > this.$screen.clientHeight)
-
-      if (isOverflowingScreen) this.positionY = 0
-      if (!isOverflowingScreen) this.positionY = newPositionY
+      this.positionY = newPositionY
 
       return this.renderMovement()
    }
