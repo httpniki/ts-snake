@@ -10,6 +10,8 @@ export default class Snake {
    $screen: HTMLElement
    positionX: number
    positionY: number
+   prevPositionX: number = null
+   prevPositionY: number = null
    movementPixels: number
    constructor(
       $screen: HTMLElement,
@@ -48,6 +50,7 @@ export default class Snake {
          }
       })
 
+      this.prevPositionX = this.positionX
       this.positionX = newPosition
 
       return this.renderMovement()
@@ -64,6 +67,7 @@ export default class Snake {
          }
       })
 
+      this.prevPositionX = this.positionX
       this.positionX = newPosition
 
       return this.renderMovement()
@@ -79,6 +83,7 @@ export default class Snake {
          }
       })
 
+      this.prevPositionY = this.positionY
       this.positionY = newPositionY
 
       return this.renderMovement()
@@ -94,6 +99,7 @@ export default class Snake {
          }
       })
 
+      this.prevPositionY = this.positionY
       this.positionY = newPositionY
 
       return this.renderMovement()
