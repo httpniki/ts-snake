@@ -1,5 +1,3 @@
-import './styles/app.css'
-
 import Fruit from './components/Fruit'
 import Models from './components/Models'
 import Snake from './components/Snake'
