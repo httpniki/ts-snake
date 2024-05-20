@@ -4,12 +4,12 @@
 
 @font-face {
    font-family: retro;
-   src: url(retro.ttf)
+   src: url(/retro.ttf)
 }
 
 @font-face {
    font-family: OpenSans;
-   src: url(OpenSans-Regular.ttf)
+   src: url(/OpenSans-Regular.ttf)
 }
 
 :root {
