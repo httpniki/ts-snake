@@ -1,14 +1,58 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Snake</title>
-  </head>
-  <body>
-    <main id="app">
+
+<head>
+   <meta charset="UTF-8" />
+   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Snake</title>
+</head>
+
+<body>
+   <main id="app">
+      <section>
+         <article id="game"></article>
+
+         <aside>
+            <p id="score">Score: <span id="score-value">0</span></p>
+            <p id="timer">
+               <span class="hours">00</span>
+               <span class="hours-divider">:</span>
+               <span class="minutes">00</span>
+               <span>:</span>
+               <span class="seconds">00</span>
+            </p>
+         </aside>
+      </section>
+
+      <section id="gameOverScreen">
+         <p>
+            <span>You</span>
+            <br />
+            <span id="gameResultText"></span>
+         </p>
+
+         <div>
+            <button id="tryAgainButton">Try again</button>
+         </div>
+
+
+         <div id="result">
+            <h6>Your score:</h6>
+            <p id="gameOverScore">
+               Score:
+               <span>0</span>
+            </p>
+
+            <p id="gameOverTimer">
+               Time:
+               <span>00:00</span>
+            </p>
+         </div>
+      </section>
    </main>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+   <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>

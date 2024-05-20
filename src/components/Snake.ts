@@ -1,107 +1,92 @@
-import calculateNewPosition from '../utils/calculateNewPosition'
+import { Direction } from '~/types/types'
 
-interface InitialPosition {
+import Movement from './Movement'
+import Screen from './Screen'
+
+interface Position {
    x: number,
    y: number
 }
 
 export default class Snake {
    $HTMLElement: HTMLElement = null
-   $screen: HTMLElement
-   positionX: number
-   positionY: number
-   prevPositionX: number = null
-   prevPositionY: number = null
-   movementPixels: number
-   constructor(
-      $screen: HTMLElement,
-      movementPixels: number,
-      initialPosition?: InitialPosition
-   ) {
-      this.$screen = $screen
-      this.movementPixels = movementPixels
-      this.create()
-
-      const { x, y } = this.$HTMLElement.getBoundingClientRect()
-      this.positionX = initialPosition?.x ?? x
-      this.positionY = initialPosition?.y ?? y
+   screen: Screen
+   x: number
+   y: number
+   old_x: number
+   old_y: number
+   direction: Direction = ''
+   constructor(screen: Screen, initialPosition?: Position) {
+      this.screen = screen
+      this.create(initialPosition)
    }
 
-   private create() {
+   private create(initialPosition?: Position) {
       const $snake = document.createElement('div')
+
       $snake.classList.add('snake')
+      $snake.style.visibility = 'hidden'
 
       this.$HTMLElement = $snake
-      this.$screen.appendChild(this.$HTMLElement)
+      this.screen.$HTMLElement.appendChild($snake)
+
+      const x = initialPosition?.x ?? this.$HTMLElement.offsetLeft
+      const y = initialPosition?.y ?? this.$HTMLElement.offsetTop
+
+      this.setHTMLElementPosition(x, y)
+      this.x = x
+      this.y = y
+
+      this.$HTMLElement.style.visibility = 'visible'
    }
 
-   private renderMovement() {
-      this.$HTMLElement.style.translate = `${this.positionX}px ${this.positionY}px`
-   }
+   move(direction: Direction, pos?: Position) {
+      const { x, y } = pos ?? {}
+      this.old_x = this.x
+      this.old_y = this.y
 
-   moveRight() {
-      const { x } = this.$HTMLElement.getBoundingClientRect()
+      if (direction) {
+         const movement = new Movement(
+            this.screen.mash,
+            { x: this.screen.width, y: this.screen.height },
+            { x: this.x, y: this.y }
+         )
 
-      const newPosition = calculateNewPosition({
-         pixelsToMove: this.movementPixels,
-         right: {
-            screenWidth: this.$screen.clientWidth,
-            positionX: x
+         switch (direction) {
+            case ('Up'):
+               this.y = movement.moveUp()
+               break
+            case ('Down'):
+               this.y = movement.moveDown()
+               break
+            case ('Right'):
+               this.x = movement.moveRight()
+               break
+            case ('Left'):
+               this.x = movement.moveLeft()
+               break
          }
-      })
+      }
 
-      this.prevPositionX = this.positionX
-      this.positionX = newPosition
+      if (typeof x === 'number') this.x = x
+      if (typeof y === 'number') this.y = y
 
-      return this.renderMovement()
+      this.direction = direction
+      this.setHTMLElementPosition(this.x, this.y)
    }
 
-   moveLeft() {
-      const { x } = this.$HTMLElement.getBoundingClientRect()
+   moveByLastDirection() {
+      this.old_x = this.x
+      this.old_y = this.y
 
-      const newPosition = calculateNewPosition({
-         pixelsToMove: this.movementPixels,
-         left: {
-            screenWidth: this.$screen.clientWidth,
-            positionX: x
-         }
-      })
-
-      this.prevPositionX = this.positionX
-      this.positionX = newPosition
-
-      return this.renderMovement()
+      if (this.direction === 'Left') this.move('Left')
+      if (this.direction === 'Right') this.move('Right')
+      if (this.direction === 'Up') this.move('Up')
+      if (this.direction === 'Down') this.move('Down')
    }
 
-   moveUp() {
-      const { y } = this.$HTMLElement.getBoundingClientRect()
-      const newPositionY = calculateNewPosition({
-         pixelsToMove: this.movementPixels,
-         up: {
-            positionY: y,
-            screenHeight: this.$screen.clientHeight
-         }
-      })
-
-      this.prevPositionY = this.positionY
-      this.positionY = newPositionY
-
-      return this.renderMovement()
-   }
-
-   moveBottom() {
-      const { y } = this.$HTMLElement.getBoundingClientRect()
-      const newPositionY = calculateNewPosition({
-         pixelsToMove: this.movementPixels,
-         down: {
-            positionY: y,
-            screenHeight: this.$screen.clientHeight
-         }
-      })
-
-      this.prevPositionY = this.positionY
-      this.positionY = newPositionY
-
-      return this.renderMovement()
+   private setHTMLElementPosition(x: number, y: number) {
+      this.$HTMLElement.style.left = `${x}px`
+      this.$HTMLElement.style.top = `${y}px`
    }
 }

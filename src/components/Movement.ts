@@ -1,57 +1,59 @@
-interface Arguments {
-   $element: HTMLElement
-   $screen: HTMLElement
-   movementPixelSkip: number
+interface ScreenSize {
+   x: number,
+   y: number
+}
+
+interface CurrentPosition {
+   x?: number
+   y?: number
 }
 
 export default class Movement {
-   $element: HTMLElement
-   $screen: HTMLElement
-   movementPixelSkip: number
-   x: number
-   y: number
-   constructor({ $element, $screen, movementPixelSkip }: Arguments) {
-      this.$element = $element
-      this.movementPixelSkip = movementPixelSkip
-      this.$screen = $screen
-      const { x, y } = $element.getBoundingClientRect()
-      this.x = x
-      this.y = y
+   mash: number
+   screenSize: ScreenSize
+   currentPosition: CurrentPosition
+   private newPositionX: number = null
+   private newPositionY: number = null
+
+   constructor(mash: number, screenSize: ScreenSize, position: CurrentPosition) {
+      this.mash = mash
+      this.screenSize = screenSize
+      this.currentPosition = position
    }
 
-   translateRight() {
-      const rigth = this.x + this.movementPixelSkip
-      const isOverflowingScreen = this.y > this.$screen.clientWidth
+   moveUp() {
+      const isOverflowScreen = (this.currentPosition.y === 0)
 
-      if (isOverflowingScreen) return this.translate(0, this.y)
-      return this.translate(rigth, this.y)
+      if (isOverflowScreen) this.newPositionY = this.screenSize.y - this.mash
+      if (!isOverflowScreen) this.newPositionY = this.currentPosition.y - this.mash
+
+      return this.newPositionY
    }
 
-   translateLeft() {
-      const left = this.x - this.movementPixelSkip
-      const isOverflowingScreen = this.y < 0
+   moveDown() {
+      const isOverflowScreen = (this.currentPosition.y + this.mash === this.screenSize.y)
 
-      if (isOverflowingScreen) return this.translate(this.$screen.clientWidth, this.y)
-      return this.translate(left, this.y)
+      if (isOverflowScreen) this.newPositionY = 0
+      if (!isOverflowScreen) this.newPositionY = this.currentPosition.y + this.mash
+
+      return this.newPositionY
    }
 
-   translateTop() {
-      const up = this.y - this.movementPixelSkip
-      const isOverflowingScreen = this.y < 0
+   moveRight() {
+      const isOverflowScreen = (this.currentPosition.x + this.mash === this.screenSize.x)
 
-      if (isOverflowingScreen) return this.translate(this.x, this.$screen.clientHeight)
-      return this.translate(this.x, up)
+      if (isOverflowScreen) this.newPositionX = 0
+      if (!isOverflowScreen) this.newPositionX = this.currentPosition.x + this.mash
+
+      return this.newPositionX
    }
 
-   translateBottom() {
-      const down = this.y + this.movementPixelSkip
-      const isOverflowingScreen = this.y > this.$screen.clientHeight
+   moveLeft() {
+      const isOverflowScreen = (this.currentPosition.x === 0)
 
-      if (isOverflowingScreen) return this.translate(this.x, 0)
-      return this.translate(this.x, down)
-   }
+      if (isOverflowScreen) this.newPositionX = this.screenSize.x - this.mash
+      if (!isOverflowScreen) this.newPositionX = this.currentPosition.x - this.mash
 
-   translate(x?: number, y?: number) {
-      this.$element.style.translate = `${x}px ${y}px`
+      return this.newPositionX
    }
 }

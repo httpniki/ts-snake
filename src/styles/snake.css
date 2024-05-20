@@ -1,0 +1,11 @@
+.snake {
+   position: absolute;
+   top: var(--snake-translate-x);
+   left: var(--snake-translate-y);
+
+   width: 20px;
+   height: 20px;
+
+   background-color: var(--green-900);
+   z-index: 10;
+}

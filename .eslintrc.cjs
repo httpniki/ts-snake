@@ -48,6 +48,10 @@ module.exports = {
       ],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-      '@typescript-eslint/no-unused-vars': 'warn'
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@stylistic/js/no-multiple-empty-lines': ['error', { 'max': 1 }],
+      'no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      'prefer-const': 'off'
    }
 }

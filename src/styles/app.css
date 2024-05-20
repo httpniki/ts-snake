@@ -1,0 +1,71 @@
+@import "snake.css";
+@import "fruit.css";
+@import "gameOverScreen.css";
+
+@font-face {
+   font-family: retro;
+   src: url(retro.ttf)
+}
+
+@font-face {
+   font-family: OpenSans;
+   src: url(OpenSans-Regular.ttf)
+}
+
+:root {
+   --screen-width: 500px;
+   --screen-height: 500px;
+   --snake-width: 20px;
+   --snake-height: 20px;
+   --snake-translate-x: calc(var(--screen-width) / 2 - var(--snake-width) / 2);
+   --snake-translate-y: calc(var(--screen-height) / 2 - var(--snake-height) / 2);
+   --green-400: #8eb757;
+   --green-900: #253d25;
+   --win: #0b8b00;
+   --lose: #a60606;
+}
+
+body {
+   margin: 0;
+}
+
+main {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   width: 100vw;
+   height: 100vh;
+
+   background-color: var(--green-400);
+   overflow: hidden;
+}
+
+#game {
+   position: relative;
+
+   width: var(--screen-width);
+   height: var(--screen-height);
+
+   border: 2px solid var(--green-900);
+   margin: auto auto;
+   background-color: var(--green-400);
+}
+
+aside {
+   display: flex;
+   justify-content: space-between;
+}
+
+#score,
+#timer {
+   color: var(--green-900);
+   font-size: 28px;
+   font-weight: 800;
+   font-family: 'Times New Roman';
+}
+
+.hours,
+.hours-divider {
+   display: none;
+}
