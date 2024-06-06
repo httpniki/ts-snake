@@ -25,22 +25,22 @@ export default class Models {
       this.snake = [new Snake(this.screen)]
    }
 
-   private resetSnake() {
-      const prevSnake = $$('.snake')
-
-      prevSnake.forEach((body: HTMLElement) => {
-         if (!body) return
-         this.screen.$HTMLElement.removeChild(body)
-      })
-
-      this.snake = [new Snake(this.screen)]
-   }
-
    resetModels() {
       this.resetSnake()
       this.fruit.remove()
       this.fruit = null
       this.score.reset()
       this.timer.reset()
+   }
+
+   private resetSnake() {
+      const snake = $$('.snake')
+
+      snake.forEach((body: HTMLElement) => {
+         if (!body) return
+         this.screen.$HTMLElement.removeChild(body)
+      })
+
+      this.snake = [new Snake(this.screen)]
    }
 }

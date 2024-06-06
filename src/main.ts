@@ -14,7 +14,7 @@ class Main extends Models {
 
    start() {
       this.director((key: string) => {
-         let areFruitPresent = false
+         let detectFruit = false
          if (this.timer.status === 'Stopped') this.timer.start()
          if (!this.fruit) this.spawnFruit()
 
@@ -39,7 +39,7 @@ class Main extends Models {
                      break
                }
 
-               areFruitPresent = detectObject(
+               detectFruit = detectObject(
                   { x: body.x, y: body.y },
                   { x: this.fruit.x, y: this.fruit.y }
                )
@@ -51,13 +51,13 @@ class Main extends Models {
             }
 
             if (index === this.snake.length - 1) {
-               const areBodyPresent = detectObject(
+               const detectBody = detectObject(
                   { x: this.snake[0].x, y: this.snake[0].y },
                   [...this.snake].slice(3, this.snake.length)
                )
 
-               if (areBodyPresent) this.endGame(false)
-               if (areFruitPresent) this.eatFruit()
+               if (detectBody) this.endGame(false)
+               if (detectFruit) this.eatFruit()
             }
          })
       }, this.speed)
@@ -94,12 +94,12 @@ class Main extends Models {
    }
 
    private spawnFruit() {
-      let randomPositionX = getRandomPosition(this.screen.width, this.screen.mash)
-      let randomPositionY = getRandomPosition(this.screen.height, this.screen.mash)
+      let random_pos_x = getRandomPosition(this.screen.width, this.screen.mash)
+      let random_pos_y = getRandomPosition(this.screen.height, this.screen.mash)
 
-      while (this.snake.some(body => randomPositionX === body.x && randomPositionY === body.y)) {
-         randomPositionX = getRandomPosition(this.screen.width, this.screen.mash)
-         randomPositionY = getRandomPosition(this.screen.height, this.screen.mash)
+      while (this.snake.some(body => random_pos_x === body.x && random_pos_y === body.y)) {
+         random_pos_x = getRandomPosition(this.screen.width, this.screen.mash)
+         random_pos_y = getRandomPosition(this.screen.height, this.screen.mash)
       }
 
       if (this.fruit) {
@@ -108,8 +108,8 @@ class Main extends Models {
       }
 
       this.fruit = new Fruit({
-         x: randomPositionX,
-         y: randomPositionY,
+         x: random_pos_x,
+         y: random_pos_y,
          screen: this.screen
       })
    }

@@ -17,5 +17,6 @@ export default function detectObject(
    const checkY = (clientPosition.y === objectPosition.y)
 
    if (checkX && checkY) return true
+
    return false
 }
