@@ -7,6 +7,6 @@
 
 #### TODO: ####
 
-- Has a bug when pressing the movement keys quickly.
+- It has a bug when the movement keys are pressed quickly.
 - I want to add a local scoreboard.
 - some day...
